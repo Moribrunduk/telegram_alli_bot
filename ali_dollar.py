@@ -17,8 +17,8 @@ def echo_all(message):
 		bot.send_message(message.from_user.id, 'Привет, давай познакомимся, как тебя зовут')
 		bot.register_next_step_handler(message, reg_name)
 	elif message.text == "Курс":
-		print(Parsing_dollar.Dollar_rub)
-		bot.send_message(message.from_user.id, "1 доллар = " + Parsing_dollar.Dollar_rub + " руб")
+		bot.send_message(message.from_user.id, "Курс доллара ЦБ"+"\n"+"1 доллар = " + Parsing_dollar.From_CB() + " руб")
+		bot.send_message(message.from_user.id, "Курс доллара Алиекспресс"+"\n"+"1 доллар = " + Parsing_dollar.From_Aliexpress() + " руб")
 def reg_name(message):
 	global name
 	name = message.text
