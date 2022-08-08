@@ -1,5 +1,8 @@
 import telebot
 bot = telebot.TeleBot("5300737902:AAHWfngF7lOD8bRHqOTZjrXM9QklbILAhD4")
+name =""
+sername = ""
+age = 0
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -8,6 +11,25 @@ def send_welcome(message):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
 	if message.text == 'Привет':
-		bot.reply_to(message, 'Ого здоровенько')
-
+		bot.reply_to(message, 'Привет, подскажи, что бы ты хотел увидеть')
+	elif message.text == "/reg":
+		bot.send_message(message.from_user.id, 'Привет, давай познакомимся, как тебя зовут')
+		bot.register_next_step_handler(message, reg_name)
+def reg_name(message):
+	global name
+	name = message.text
+	bot.send_message(message.from_user.id, 'Какая у тебя фамилия')
+	bot.register_next_step_handler(message, reg_sername)
+def reg_sername(message):
+	global sername
+	sername = message.text
+	bot.send_message(message.from_user.id, 'Сколько тебе лет')
+	bot.register_next_step_handler(message, reg_age)
+def reg_age(message):
+	global age
+	while age == 0:
+		try:
+			age = int(message.text)
+		except Exception:
+			bot.send_message(message.from_user.id, 'Пиши циферами')
 bot.infinity_polling()
