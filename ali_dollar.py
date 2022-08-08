@@ -1,4 +1,5 @@
 import telebot
+import Parsing_dollar
 bot = telebot.TeleBot("5300737902:AAHWfngF7lOD8bRHqOTZjrXM9QklbILAhD4")
 name =""
 sername = ""
@@ -12,9 +13,12 @@ def send_welcome(message):
 def echo_all(message):
 	if message.text == 'Привет':
 		bot.reply_to(message, 'Привет, подскажи, что бы ты хотел увидеть')
-	elif message.text == "/reg":
+	elif message.text == "Рег":
 		bot.send_message(message.from_user.id, 'Привет, давай познакомимся, как тебя зовут')
 		bot.register_next_step_handler(message, reg_name)
+	elif message.text == "Курс":
+		print(Parsing_dollar.Dollar_rub)
+		bot.send_message(message.from_user.id, "1 доллар = " + Parsing_dollar.Dollar_rub + " руб")
 def reg_name(message):
 	global name
 	name = message.text
@@ -30,6 +34,10 @@ def reg_age(message):
 	while age == 0:
 		try:
 			age = int(message.text)
-		except Exception:
+			bot.send_message(message.from_user.id, 'збс')
+		except TypeError:
 			bot.send_message(message.from_user.id, 'Пиши циферами')
+			age = 0
+			bot.register_next_step_handler(message, reg_age)
+
 bot.infinity_polling()
