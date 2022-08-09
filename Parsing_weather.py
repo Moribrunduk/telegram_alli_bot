@@ -2,7 +2,7 @@ import transliterate.exceptions
 from transliterate import translit
 import requests
 from bs4 import BeautifulSoup
-ru_text = "Архангельская область северодвинск" вшк
+ru_text = "Архангельская область"
 ru_text = ru_text.replace(" ","+")
 def Weather():
     global ru_text
