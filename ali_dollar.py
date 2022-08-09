@@ -1,9 +1,11 @@
 import telebot
 import Parsing_dollar
+import Parsing_weather
 bot = telebot.TeleBot("5300737902:AAHWfngF7lOD8bRHqOTZjrXM9QklbILAhD4")
 name =""
 sername = ""
 age = 0
+city = ""
 
 Commands  = {"Курс": "позволяет увидеть курс валюты ", "Погода":"позволяет увидеть погоду в выбранном огороде", "Комплимент": "комплимент",}
 
@@ -24,6 +26,10 @@ def echo_all(message):
 		bot.send_message(message.from_user.id, "Курс доллара Алиекспресс"+"\n"+"1 доллар = " + Parsing_dollar.From_Aliexpress() + " руб")
 	elif message.text == "Комплимент":
 		bot.send_message(message.from_user.id, Parsing_dollar.Love_words())
+	elif message.text == "Погода":
+		bot.send_message(message.from_user.id, 'Напиши название города')
+		bot.register_next_step_handler(message, weather)
+
 def reg_name(message):
 	global name
 	name = message.text
@@ -35,9 +41,16 @@ def reg_sername(message):
 	bot.send_message(message.from_user.id, 'Сколько тебе лет')
 	bot.register_next_step_handler(message, reg_age)
 def reg_age(message):
+	pass
 	global age
 	age = int(message.text)
 	if age != int:
 		bot.send_message(message.from_user.id, 'Пиши цифрами')
+
+
+def weather(message):
+	global city
+	city = message.text
+	bot.send_message(message.from_user.id, Parsing_weather.Weather(city))
 
 bot.infinity_polling()
