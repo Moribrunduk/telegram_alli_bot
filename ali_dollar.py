@@ -5,7 +5,7 @@ name =""
 sername = ""
 age = 0
 
-Commands  = {"Курс": "позволяет увидеть курс валюты "}
+Commands  = {"Курс": "позволяет увидеть курс валюты ", "Погода":"позволяет увидеть погоду в выбранном огороде", "Комплимент": "комплимент",}
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -22,6 +22,8 @@ def echo_all(message):
 	elif message.text == "Курс":
 		bot.send_message(message.from_user.id, "Курс доллара ЦБ"+"\n"+"1 доллар = " + Parsing_dollar.From_CB() + " руб")
 		bot.send_message(message.from_user.id, "Курс доллара Алиекспресс"+"\n"+"1 доллар = " + Parsing_dollar.From_Aliexpress() + " руб")
+	elif message.text == "Комплимент":
+		bot.send_message(message.from_user.id, Parsing_dollar.Love_words())
 def reg_name(message):
 	global name
 	name = message.text
@@ -33,14 +35,9 @@ def reg_sername(message):
 	bot.send_message(message.from_user.id, 'Сколько тебе лет')
 	bot.register_next_step_handler(message, reg_age)
 def reg_age(message):
-	pass
 	global age
-	age = 0
-	if age == int:
-		bot.send_message(message.from_user.id, 'збс')
-	else:
-		bot.send_message(message.from_user.id, 'Пиши циферами')
-		reg_age(message)
-
+	age = int(message.text)
+	if age != int:
+		bot.send_message(message.from_user.id, 'Пиши цифрами')
 
 bot.infinity_polling()
